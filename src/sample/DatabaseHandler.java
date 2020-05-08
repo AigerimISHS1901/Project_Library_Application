@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 public class DatabaseHandler extends Configs{
     Connection dbConnection;
     public Connection getDbConnection() throws ClassNotFoundException, SQLException{
-        String connectionString="jdbc:mysql://"+dbHost+":"+dbPort+"/"+dbName;
+        String connectionString="jdbc:mysql://localhost:3306/Library?useUnicode=true&serverTimezone=UTC";
 
         Class.forName("com.mysql.cj.jdbc.Driver");
         dbConnection=DriverManager.getConnection(connectionString,dbUser,dbPass);
