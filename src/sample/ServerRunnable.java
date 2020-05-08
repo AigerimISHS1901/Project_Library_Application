@@ -3,6 +3,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.sql.Connection;
+import java.util.ArrayList;
 
 public class ServerRunnable extends Thread{
 
@@ -15,9 +16,18 @@ public class ServerRunnable extends Thread{
     public void run(){
         try
         {
+            DatabaseHandler handler=new DatabaseHandler();
+            handler.getDbConnection();
 
             ObjectOutputStream outStream = new ObjectOutputStream(socket.getOutputStream());
             ObjectInputStream inStream = new ObjectInputStream(socket.getInputStream());
+            PackageData pd = null;
+            while ( (pd=(PackageData)inStream.readObject())!=null) {
+                if (pd.getOperationType().equals("SignUpUser")) {
+                    User userFromUser = pd.getUser();
+                    handler.signUpUser(userFromUser);
+                }
+            }
 
 
             inStream.close();
